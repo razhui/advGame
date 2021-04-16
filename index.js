@@ -19,22 +19,29 @@ client.on('ready', async () => {
   })
 });
 
+const Schema = mongoose.Schema;
 
+const playerSchema = new Schema({
+  discordID:Number,
+  stat1:Number, 
+  stat2:Number, 
+  stat3:Number 
+})
+
+const Player = mongoose.model("Player", playerSchema);
 
 client.on('message', msg => {
 
+  const discordID = msg.member.id;
+
+
   function Create() {
-    const Player = mongoose.model('Player', { 
-      name:String, 
-      stat1:Number, 
-      stat2:Number, 
-      stat3:Number });
-    
-    const newPlayer = new Player ({ 
-      name:'New', 
+    const newPlayer = new Player ({
+      discordID: discordID,
       stat1: 5, 
       stat2: 5, 
-      stat3: 5});
+      stat3: 5
+    });
   
       newPlayer.save().then(() => msg.reply('new adventurer added'));
   }
