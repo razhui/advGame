@@ -20,8 +20,10 @@ client.on('ready', async () => {
 });
 
 client.on('message', msg => {
-  if (msg.content === config.prefix + "adventure") {
-    const Player = mongoose.model('Player', { 
+
+  switch (msg.content) {
+    case config.prefix + "create":
+      const Player = mongoose.model('Player', { 
       name:String, 
       stat1:Number, 
       stat2:Number, 
@@ -33,8 +35,31 @@ client.on('message', msg => {
       stat2: 5, 
       stat3: 5});
 
-      newPlayer.save().then(() => msg.reply('new adventurer added'))
+      newPlayer.save().then(() => msg.reply('new adventurer added'));
+      break;
+
+    case config.prefix + "adventure":
+      console.log("ON AN ADVENTURE")
+      break;
   }
+
+
+
+  // if (msg.content === config.prefix + "adventure") {
+  //   const Player = mongoose.model('Player', { 
+  //     name:String, 
+  //     stat1:Number, 
+  //     stat2:Number, 
+  //     stat3:Number });
+    
+  //   const newPlayer = new Player ({ 
+  //     name:'New', 
+  //     stat1: 5, 
+  //     stat2: 5, 
+  //     stat3: 5});
+
+  //     newPlayer.save().then(() => msg.reply('new adventurer added'))
+  // }
 });
 
 client.on('message', msg => {
