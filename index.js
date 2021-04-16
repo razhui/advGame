@@ -19,11 +19,12 @@ client.on('ready', async () => {
   })
 });
 
+
+
 client.on('message', msg => {
 
-  switch (msg.content) {
-    case config.prefix + "create":
-      const Player = mongoose.model('Player', { 
+  function Create() {
+    const Player = mongoose.model('Player', { 
       name:String, 
       stat1:Number, 
       stat2:Number, 
@@ -34,8 +35,13 @@ client.on('message', msg => {
       stat1: 5, 
       stat2: 5, 
       stat3: 5});
-
+  
       newPlayer.save().then(() => msg.reply('new adventurer added'));
+  }
+
+  switch (msg.content) {
+    case config.prefix + "create":
+      Create();
       break;
 
     case config.prefix + "adventure":
@@ -43,29 +49,6 @@ client.on('message', msg => {
       break;
   }
 
-
-
-  // if (msg.content === config.prefix + "adventure") {
-  //   const Player = mongoose.model('Player', { 
-  //     name:String, 
-  //     stat1:Number, 
-  //     stat2:Number, 
-  //     stat3:Number });
-    
-  //   const newPlayer = new Player ({ 
-  //     name:'New', 
-  //     stat1: 5, 
-  //     stat2: 5, 
-  //     stat3: 5});
-
-  //     newPlayer.save().then(() => msg.reply('new adventurer added'))
-  // }
-});
-
-client.on('message', msg => {
-  if (msg.content === 'test') {
-    msg.reply('test complete');
-  }
 });
 
 client.login(config.token);
