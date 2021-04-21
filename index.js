@@ -21,42 +21,56 @@ client.on('ready', async () => {
   })
 });
 
+//WEBHOOK//
+
+const webhook = new Discord.WebhookClient(config.webhook_id, config.webhook_token);
+
+const embedClass = new Discord.MessageEmbed()
+.setTitle("Choose your class")
+.setDescription("Lancer\nAlchemist\nSpellblade\nCorsair")
+
 //PLAYER SCHEMA//
 
 const Schema = mongoose.Schema;
 
 const playerSchema = new Schema({
   discordID:Number,
-  stat1:Number, 
-  stat2:Number, 
+  Health:Number, 
+  Mana:Number, 
   stat3:Number 
 })
 
 const Player = mongoose.model("Player", playerSchema);
 
+function Create(discordID) {
+  const newPlayer = new Player ({
+    discordID: discordID,
+    Health: 25, 
+    Mana: 25, 
+    stat3: 25
+  })
+  return newPlayer
+}
+
 //CLIENT LISTENING FOR PLAYER MESSAGE//
 
 client.on('message', msg => {
 
-  const discordID = msg.member.id;
-
+  // const discordID = msg.member.id;
   const reactYousoro = msg.guild.emojis.cache.find(emoji => emoji.name === "Yousoro7")
 
 
-  function Create() {
-    const newPlayer = new Player ({
-      discordID: discordID,
-      stat1: 5, 
-      stat2: 5, 
-      stat3: 5
-    });
+
   
-      newPlayer.save().then(() => msg.reply('new adventurer added'));
-  }
+      // newPlayer.save().then(() => msg.reply('new adventurer added'));
 
   switch (msg.content.toLowerCase()) {
     case config.prefix + "create":
-      Create();
+      webhook.send(null, {
+        embeds: [embedClass]
+      })
+      // newPlayer = Create(discordID);
+      // newPlayer.save().then(() => msg.reply('new adventurer added'));
       break;
 
     case config.prefix + "adventure":
