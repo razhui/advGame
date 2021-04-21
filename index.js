@@ -5,6 +5,8 @@ const config = require('./config.json');
 const mongo = require('./mongo');
 const mongoose = require('mongoose');
 
+//CLIENT ON//
+
 client.on('ready', async () => {
   console.log('raz bot ready')
   
@@ -19,6 +21,8 @@ client.on('ready', async () => {
   })
 });
 
+//PLAYER SCHEMA//
+
 const Schema = mongoose.Schema;
 
 const playerSchema = new Schema({
@@ -30,9 +34,13 @@ const playerSchema = new Schema({
 
 const Player = mongoose.model("Player", playerSchema);
 
+//CLIENT LISTENING FOR PLAYER MESSAGE//
+
 client.on('message', msg => {
 
   const discordID = msg.member.id;
+
+  const reactYousoro = msg.guild.emojis.cache.find(emoji => emoji.name === "Yousoro7")
 
 
   function Create() {
@@ -46,7 +54,7 @@ client.on('message', msg => {
       newPlayer.save().then(() => msg.reply('new adventurer added'));
   }
 
-  switch (msg.content) {
+  switch (msg.content.toLowerCase()) {
     case config.prefix + "create":
       Create();
       break;
@@ -54,6 +62,9 @@ client.on('message', msg => {
     case config.prefix + "adventure":
       console.log("ON AN ADVENTURE")
       break;
+    
+    case "yousoro":
+      msg.react(reactYousoro);
   }
 
 });
